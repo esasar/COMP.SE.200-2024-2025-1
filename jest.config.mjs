@@ -11,6 +11,17 @@ const config = {
   transform: {},
   coverageDirectory: 'coverage',
   coverageProvider: 'v8',
+
+  collectCoverage: true,
+  coverageReporters: ['text', 'html', 'lcov'],
+  coverageThreshold: {
+    global: {
+      branches: 20,
+      functions: 20,
+      lines: 20,
+      statements: 20
+    }
+  }
 };
 
 export default config;
