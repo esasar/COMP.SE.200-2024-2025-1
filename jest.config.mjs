@@ -21,7 +21,11 @@ const config = {
       lines: 20,
       statements: 20
     }
-  }
+  },
+
+  // ingore source files in .internal and node_modules
+  testPathIgnorePatterns: ['/node_modules/', '/.internal/'],
+  coveragePathIgnorePatterns: ['/node_modules/', '/.internal/'],
 };
 
 export default config;
