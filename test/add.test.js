@@ -1,6 +1,6 @@
 import add from '../src/add';
 
-describe('add function', () => {
+describe('add', () => {
     /*
     * What is the equivalence partition in the case of numbers?
     * In theory, we should expect Numbers and Non-Numbers to behave

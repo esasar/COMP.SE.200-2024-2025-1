@@ -6,7 +6,7 @@ describe('eq', () => {
     * and camelCase.test.js?
     */
     describe('when given valid inputs', () => {
-        test('should return true when given two equal primitive values', () => {
+        test('returns true when given two equal primitive values', () => {
             expect(eq('foo', 'foo')).toBe(true);
             expect(eq(1, 1)).toBe(true);
             expect(eq(true, true)).toBe(true);
@@ -15,10 +15,25 @@ describe('eq', () => {
             expect(eq(NaN, NaN)).toBe(true);
         });
 
-        test('should return true when given two equal objects', () => {
+        test('returns false when given two different primitive values', () => {
+            expect(eq('foo', 'bar')).toBe(false);
+            expect(eq(1, 2)).toBe(false);
+            expect(eq(true, false)).toBe(false);
+            expect(eq(null, undefined)).toBe(false);
+            expect(eq(NaN, null)).toBe(false);
+            expect(eq(1, true)).toBe(false);
         });
 
-        test('should return false when given two different primitive values', () => {
+        test('returns true when given two equal objects', () => {
+            const obj1 = { foo: "bar" };
+            const obj2 = { foo: "bar" };
+            expect(eq(obj1, obj2)).toBe(true);
+        });
+
+        test('returns false when given two different objects', () => {
+            const obj1 = { foo: true };
+            const obj2 = { foo: 1 };
+            expect(eq(obj1, obj2)).toBe(false);
         });
     });
 
@@ -31,7 +46,7 @@ describe('eq', () => {
     * the other limit values.
     */
     describe('when given limit values', () => {
-        test('should return true when given two equal limit values', () => {
+        test('returns true when given two equal limit values', () => {
             expect(eq(Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER)).toBe(true);
             expect(eq(Number.MAX_SAFE_INTEGER + 1, Number.MAX_SAFE_INTEGER + 1)).toBe(true);
             expect(eq(Number.MIN_SAFE_INTEGER, Number.MIN_SAFE_INTEGER)).toBe(true);
@@ -42,7 +57,7 @@ describe('eq', () => {
             expect(eq(Number.MIN_VALUE - 1.0, Number.MIN_VALUE - 1.0)).toBe(true);
         });
 
-        test('should retrun false when given two different limit values', () => {
+        test('returns false when given two different limit values', () => {
             expect(eq(Number.MAX_SAFE_INTEGER, Number.MAX_SAFE_INTEGER + 1)).toBe(false);
             expect(eq(Number.MIN_SAFE_INTEGER, Number.MIN_SAFE_INTEGER - 1)).toBe(false);
             expect(eq(Number.MAX_VALUE, Number.MAX_VALUE + 1.0)).toBe(false);
