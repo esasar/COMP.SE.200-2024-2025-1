@@ -154,7 +154,16 @@ describe('When given invalid types', () => {
 });
 
 describe('When given objects', () => {
-    describe('When object has valueOf method, which returns a number', () => {
+    describe('When object does not have a custom valueOf method', () => {
+        test('returns number when new object has a toString method, which returns a number', () => {
+            expect(toNumber({ toString: () => 13 })).toBe(13);
+        });
+        test('returns number when new object has a toString method, which returns a numeric string', () => {
+            expect(toNumber({ toString: () => "13" })).toBe(13);
+        });
+    });
+
+    describe('When object has a custom valueOf method, which returns a number', () => {
 
         test('returns number when valueOf returns maximum positive integer', () => {
             expect(toNumber({ valueOf: () => Number.MAX_SAFE_INTEGER })).toBe(Number.MAX_SAFE_INTEGER);
@@ -205,7 +214,7 @@ describe('When given objects', () => {
             expect(toNumber({ valueOf: () => -Infinity })).toBe(-Infinity);
         })});
     
-    describe('When object has valueOf method, which returns a string', () => {
+    describe('When object has custom valueOf method, which returns a string', () => {
         test('returns number when valueOf returns a positive numeric string', () => {
             expect(toNumber({ valueOf: () => "123" })).toBe(123);
         });
@@ -229,7 +238,7 @@ describe('When given objects', () => {
         });
     });
 
-    describe('When object has valueOf method, which returns neither number nor string', () => {
+    describe('When object has a custom valueOf method, which returns neither number nor string', () => {
         test('returns NaN when valueOf returns NaN', () => {
             expect(toNumber({ valueOf: () => NaN })).toBeNaN();
         });
@@ -256,7 +265,7 @@ describe('When given objects', () => {
         });
     });
 
-    describe('When object has valueOf method, which returns a new object,', () => {
+    describe('When object has a custom valueOf method, which returns a new object,', () => {
         test('returns number, when new object has a toString method, which returns a number', () => {
             expect(toNumber({ valueOf: () => ({ toString: () => 13 }) })).toBe(13);
         });
@@ -272,11 +281,12 @@ describe('When given objects', () => {
         test('returns NaN, when new object has a toString method, which returns an object', () => {
             expect(toNumber({ valueOf: () => ({ toString: () => ({ value: 13 }) }) })).toBeNaN();
         });
-        test('returns NaN, when new object does not have toString method', () => {
-            expect(toNumber({ valueOf: () => ({ }) })).toBeNaN();
+        test('returns NaN, when new object does not have a custom toString method', () => {
+            expect(toNumber({ valueOf: () => ({value: 13 }) })).toBeNaN();
         });
+        
 
-    describe('When object has valueOf property, but it\'s not a function', () => {
+    describe('When object has a custom valueOf property, but it\'s not a function', () => {
         test('Return NaN, when valueOf is a number', () => {
             expect(toNumber({ valueOf: 13 })).toBeNaN();
         });
