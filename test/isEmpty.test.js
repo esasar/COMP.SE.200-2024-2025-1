@@ -1,14 +1,21 @@
 import isEmpty from '../src/isEmpty.js';
 
-describe('isEmpty function', () => {
-
-  // Test for primitive values (null, undefined, boolean, etc.)
+describe('When given edge cases', () => {
   test('returns true for null', () => {
     expect(isEmpty(null)).toBe(true);
   });
 
   test('returns true for undefined', () => {
     expect(isEmpty(undefined)).toBe(true);
+  });
+
+  test('returns true for NaN', () => {
+    expect(isEmpty(NaN)).toBe(true);
+  });
+
+  test('returns true for positive and negative infinity', () => {
+    expect(isEmpty(Infinity)).toBe(true);
+    expect(isEmpty(-Infinity)).toBe(true);
   });
 
   test('returns true for a boolean', () => {
@@ -20,8 +27,9 @@ describe('isEmpty function', () => {
     expect(isEmpty(0)).toBe(true);
     expect(isEmpty(1)).toBe(true);
   });
+});
 
-  // Test for empty and non-empty arrays
+describe('When given array-like objects', () => {
   test('returns true for an empty array', () => {
     expect(isEmpty([])).toBe(true);
   });
@@ -30,7 +38,6 @@ describe('isEmpty function', () => {
     expect(isEmpty([1, 2, 3])).toBe(false);
   });
 
-  // Test for empty and non-empty strings
   test('returns true for an empty string', () => {
     expect(isEmpty('')).toBe(true);
   });
@@ -38,21 +45,19 @@ describe('isEmpty function', () => {
   test('returns false for a non-empty string', () => {
     expect(isEmpty('abc')).toBe(false);
   });
+});
 
-  // Test for arguments objects
-  test('returns true for an empty arguments object', () => {
-    (function() {
-      expect(isEmpty(arguments)).toBe(true);
-    })();
+describe('When given different types of collections', () => {
+  test('returns true for empty arguments', () => {
+    const args = (function() { return arguments; })();
+    expect(isEmpty(args)).toBe(true);
   });
 
-  test('returns false for a non-empty arguments object', () => {
-    (function() {
-      expect(isEmpty(arguments)).toBe(false);
-    })(1);
+  test('returns false for non-empty arguments', () => {
+    const args = (function() { return arguments; })(1, 2, 3);
+    expect(isEmpty(args)).toBe(false);
   });
 
-  // Test for buffers
   test('returns true for an empty buffer', () => {
     const buffer = Buffer.alloc(0);
     expect(isEmpty(buffer)).toBe(true);
@@ -63,7 +68,6 @@ describe('isEmpty function', () => {
     expect(isEmpty(buffer)).toBe(false);
   });
 
-  // Test for sets
   test('returns true for an empty set', () => {
     const set = new Set();
     expect(isEmpty(set)).toBe(true);
@@ -74,7 +78,6 @@ describe('isEmpty function', () => {
     expect(isEmpty(set)).toBe(false);
   });
 
-  // Test for maps
   test('returns true for an empty map', () => {
     const map = new Map();
     expect(isEmpty(map)).toBe(true);
@@ -84,8 +87,9 @@ describe('isEmpty function', () => {
     const map = new Map([['key', 'value']]);
     expect(isEmpty(map)).toBe(false);
   });
+});
 
-  // Test for plain objects (empty and non-empty)
+describe('When given an object', () => {
   test('returns true for an empty plain object', () => {
     expect(isEmpty({})).toBe(true);
   });
@@ -94,24 +98,32 @@ describe('isEmpty function', () => {
     expect(isEmpty({ a: 1 })).toBe(false);
   });
 
+  test('returns false for an object containing only a function', () => {
+    const obj = { toString: () => 'test' };
+    expect(isEmpty(obj)).toBe(false);
+  });
+
   test('should return true for an empty prototype object', () => {
-    function Foo() {}
+    class Foo {}
     expect(isEmpty(Foo.prototype)).toBe(true);
   });
 
   test('should return false for a non-empty prototype object', () => {
-    function Foo() {}
+    class Foo {}
     Foo.prototype.a = 1;
-    const foo = new Foo();
-    foo.b = 2;
-    expect(isEmpty(foo)).toBe(false);
+    const fooInstance = new Foo();
+    fooInstance.b = 2;
+    expect(isEmpty(fooInstance)).toBe(false);
   });
 
-  // Test for objects with inherited properties
+  test('returns true for an object with only inherited properties', () => {
+      const obj = Object.create({ inheritedProperty: 1 });
+      expect(isEmpty(obj)).toBe(true);
+  });
+
   test('returns false for an object with own and inherited properties', () => {
-    const obj = Object.create({ inherited: 1 });
-    obj.own = 2;
+    const obj = Object.create({ inheritedProperty: 1 });
+    obj.ownProperty = 2;
     expect(isEmpty(obj)).toBe(false);
   });
-
 });
