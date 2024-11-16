@@ -1,6 +1,13 @@
 import toNumber from '../src/toNumber.js';
 
 describe('When given integer', () => {
+    test('should handle adding 1 to MAX_SAFE_INTEGER correctly', () => {
+        const maxSafeInteger = Number.MAX_SAFE_INTEGER;
+        const result = toNumber(maxSafeInteger + 1);
+        expect(result).toBeGreaterThan(maxSafeInteger); // the result should be atleast a little bit bigger
+        expect(result).toBeLessThanOrEqual(Number.MAX_SAFE_INTEGER + 1); // The result should not grow more than 1
+        expect(result).not.toBeNaN();
+      });
     test('returns the number itself for maximum positive Integer', () => {
         expect(toNumber(Number.MAX_SAFE_INTEGER)).toBe(Number.MAX_SAFE_INTEGER);
     });
@@ -16,6 +23,13 @@ describe('When given integer', () => {
     test('returns the number itself for maximum negative Integer', () => {
         expect(toNumber(Number.MIN_SAFE_INTEGER)).toBe(Number.MIN_SAFE_INTEGER);
     });
+    test('should handle substracting 1 from maximum negative integer correctly', () => {
+        const minSafeInteger = Number.MIN_SAFE_INTEGER;
+        const result = toNumber(minSafeInteger -1);
+        expect(result).toBeLessThan(minSafeInteger); // the result should be atleast a little bit less
+        expect(result).toBeGreaterThanOrEqual(minSafeInteger - 1); // The result should not decrease more than 1
+        expect(result).not.toBeNaN();
+      });
 });
 
 describe('When given float', () => {
@@ -42,6 +56,9 @@ describe('When given float', () => {
     });
     test('returns the number itself for maximum negative float', () => {
         expect(toNumber(-Number.MAX_VALUE)).toBe(-Number.MAX_VALUE);
+    });
+    test('returns the number for maximum negative float - 1', () => {
+        expect(toNumber(-Number.MAX_VALUE - 1)).toBe(-Number.MAX_VALUE - 1);
     });
 });
 
@@ -127,14 +144,14 @@ describe('When given invalid types', () => {
         expect(toNumber(undefined)).toBeNaN();
     });
 
-    test('returns 0 for null', () => {
-        expect(toNumber(null)).toBe(0);
+    test('returns NaN for null', () => {
+        expect(toNumber(null)).toBeNaN();
     });
-    test('returns 1 for true', () => {
-        expect(toNumber(true)).toBe(1);
+    test('returns NaN for true', () => {
+        expect(toNumber(true)).toBeNaN();
     });
-    test('returns 0 for false', () => {
-        expect(toNumber(false)).toBe(0);
+    test('returns NaN for false', () => {
+        expect(toNumber(false)).toBeNaN();
     });
     test('returns NaN for NaN', () => {
         expect(toNumber(NaN)).toBeNaN();
@@ -164,7 +181,6 @@ describe('When given objects', () => {
     });
 
     describe('When object has a custom valueOf method, which returns a number', () => {
-
         test('returns number when valueOf returns maximum positive integer', () => {
             expect(toNumber({ valueOf: () => Number.MAX_SAFE_INTEGER })).toBe(Number.MAX_SAFE_INTEGER);
         });
@@ -212,7 +228,8 @@ describe('When given objects', () => {
         });
         test('returns negative infinity when valueOf returns -Infinity', () => {
             expect(toNumber({ valueOf: () => -Infinity })).toBe(-Infinity);
-        })});
+        })
+    });
     
     describe('When object has custom valueOf method, which returns a string', () => {
         test('returns number when valueOf returns a positive numeric string', () => {
@@ -242,8 +259,8 @@ describe('When given objects', () => {
         test('returns NaN when valueOf returns NaN', () => {
             expect(toNumber({ valueOf: () => NaN })).toBeNaN();
         });
-        test('returns 0 when valueOf returns null', () => {
-            expect(toNumber({ valueOf: () => null })).toBe(0);
+        test('returns NaN when valueOf returns null', () => {
+            expect(toNumber({ valueOf: () => null })).toBeNaN();
         });
         test('returns NaN when valueOf returns undefined', () => {
             expect(toNumber({ valueOf: () => undefined })).toBeNaN();
@@ -257,11 +274,11 @@ describe('When given objects', () => {
         test('returns NaN when valueOf returns a function', () => {
             expect(toNumber({ valueOf: () => () => 13 })).toBeNaN();
         });
-        test('returns 1 when valueOf returns a true', () => {
-            expect(toNumber({ valueOf: () => true })).toBe(1);
+        test('returns NaN when valueOf returns a true', () => {
+            expect(toNumber({ valueOf: () => true })).toBeNaN();
         });
-        test('returns 0 when valueOf returns a false', () => {
-            expect(toNumber({ valueOf: () => false })).toBe(0);
+        test('returns NaN when valueOf returns a false', () => {
+            expect(toNumber({ valueOf: () => false })).toBeNaN();
         });
     });
 
@@ -284,7 +301,7 @@ describe('When given objects', () => {
         test('returns NaN, when new object does not have a custom toString method', () => {
             expect(toNumber({ valueOf: () => ({value: 13 }) })).toBeNaN();
         });
-        
+    });
 
     describe('When object has a custom valueOf property, but it\'s not a function', () => {
         test('Return NaN, when valueOf is a number', () => {
@@ -306,6 +323,5 @@ describe('When given objects', () => {
             expect(toNumber({ valueOf: undefined })).toBeNaN();
         });
     });
-
-    })});
+});
 
