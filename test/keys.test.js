@@ -31,6 +31,7 @@ describe('When given an array-like object', () => {
     test('returns index keys for a string (array-like object)', () => {
         expect(keys("Hello")).toEqual(['0', '1', '2', '3', '4']);
     });
+    
     test('returns index keys for a plain array', () => {
         expect(keys([10, 20, 30])).toEqual(['0', '1', '2']);
     });
@@ -40,18 +41,23 @@ describe('When given edge case objects', () => {
     test('returns an empty array for null', () => {
         expect(keys(null)).toEqual([]);   
     });
+
     test('returns an empty array for undefined', () => {
         expect(keys(undefined)).toEqual([]);
     });
+
     test('returns an empty array for a number', () => {
         expect(keys(123)).toEqual([]);
     });
+
     test('returns an empty array for an empty object', () => {
         expect(keys({})).toEqual([]);
     });
+
     test('returns an empty array for a boolean', () => {
         expect(keys(true)).toEqual([]);
     });
+
     test('returns an empty array for a Date object', () => {
         expect(keys(new Date())).toEqual([]);
     });
