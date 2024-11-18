@@ -60,30 +60,29 @@ describe('chunk', () => {
     *   what is the size the input array?
     *   what is the chunk size?
     *   do we verify that each chunk is correct or just some of them?
-    * These tests cause a fatal JS error
+    * 
+    * NOTE: These test cause 
+    * """FATAL ERROR: invalid table size Allocation failed - JavaScript heap out of memory"""
     */
 
-    /*
     describe('when given valid limit values', () => {
+        /*
         test('splits array to a single chunk when size is a very large integer', () => {
             expect(chunk(['a', 'b', 'c', 'd'], Number.MAX_SAFE_INTEGER)).toBe([['a', 'b', 'c', 'd']]);
-            expect(chunk(['a', 'b', 'c', 'd'], Number.MAX_SAFE_INTEGER + 1)).toBe([['a', 'b', 'c', 'd']]);
         });
 
         test('splits array to a single chunk when size is a very large number', () => {
             expect(chunk(['a', 'b', 'c', 'd'], Number.MAX_VALUE)).toBe([['a', 'b', 'c', 'd']]);
-            expect(chunk(['a', 'b', 'c', 'd'], Number.MAX_VALUE + 1)).toBe([['a', 'b', 'c', 'd']]);
         });
 
         test('splits array to an empty array when size is a very small integer', () => {
             expect(chunk(['a', 'b', 'c', 'd'], Number.MIN_SAFE_INTEGER)).toBe([]);
-            expect(chunk(['a', 'b', 'c', 'd'], Number.MIN_SAFE_INTEGER - 1)).toBe([]);
         });
 
         test('splits array to a single chunk when size is a very small number', () => {
             expect(chunk(['a', 'b', 'c', 'd'], Number.MIN_VALUE)).toBe([]);
-            expect(chunk(['a', 'b', 'c', 'd'], Number.MIN_VALUE - 1)).toBe([]);
-        });
+        })
+        */
 
         test('splits a very large array to correct size', () => {
             const array = Array.from({ length: 1000 }, (_, i) =>  i);
@@ -92,5 +91,4 @@ describe('chunk', () => {
             expect(result[9].length).toBe(10);
         });
     });
-    */
 });

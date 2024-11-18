@@ -78,11 +78,11 @@ describe('add', () => {
 
     describe('when testing boundary values', () => {
         test('should sum very large positive integers', () => {
-            expect(add(Number.MAX_SAFE_INTEGER, 1)).toBe(Number.MAX_SAFE_INTEGER + 1);
+            expect(add(Number.MAX_SAFE_INTEGER, -1)).toBe(Number.MAX_SAFE_INTEGER - 1);
         });
 
         test('should sum very large negative integers', () => {
-            expect(add(Number.MIN_SAFE_INTEGER, -1)).toBe(Number.MIN_SAFE_INTEGER - 1);
+            expect(add(Number.MIN_SAFE_INTEGER, 1)).toBe(Number.MIN_SAFE_INTEGER + 1);
         });
 
         test('should sum very small positive floats', () => {

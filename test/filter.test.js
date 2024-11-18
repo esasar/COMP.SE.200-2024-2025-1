@@ -1,7 +1,7 @@
 import filter from '../src/filter';
 
 describe('filter', () => {
-    /*
+    /**
     * How to comprehensively test the filter function with 
     *   varied predicate checks
     *   varied arrays
@@ -14,7 +14,7 @@ describe('filter', () => {
                 { foo: 'baz', condition: false },
                 { foo: 'qux', condition: true },
             ];
-            const result = filter(array, ({ condition }) => true);
+            const result = filter(array, ({ condition }) => condition);
             expect(result).toEqual([{ foo: 'bar', condition: true }]);
         });
 
@@ -42,11 +42,30 @@ describe('filter', () => {
             const result = filter(array, (item) => item === 42);
             expect(result).toEqual([42]);
         });
+
+        test('filters an empty array when predicate always returns false', () => {
+            const array = [
+                { foo: 'bar', condition: true },
+                { foo: 'baz', condition: false },
+                { foo: 'qux', condition: true },
+            ];
+            const result = filter(array, () => false);
+            expect(result).toEqual([]);
+        });
+
+        test('filters original array when predicate always returns true', () => {
+            const array = [
+                { foo: 'bar', condition: true },
+                { foo: 'baz', condition: false },
+                { foo: 'qux', condition: true },
+            ];
+            const result = filter(array, () => true);
+            expect(result).toEqual(array);
+        });
     });
 
-    /*
-    * What should we expect when these happen?
-    * What kind of edge-cases?
+    /**
+    * Invalid inputs
     */
     describe('when given invalid inputs', () => {
         test('handles non-array inputs', () => {
@@ -64,11 +83,26 @@ describe('filter', () => {
         });
     });
 
-    /*
+    /**
+     * Edge cases
+     */
+    describe('when given edge cases', () => {
+        test('filters an array with special numbers', () => {
+            const array = [NaN, Infinity, -Infinity];
+            const result = filter(array, (item) => item === Infinity);
+            expect(result).toEqual([Infinity]);
+        });
+    });
+
+    /**
     * What kind of limit values?
     */
     describe('when given valid limit values', () => {
-
+        test('filters a very large array', () => {
+            const array = Array.from({ length: 1000 }, (_, i) => i);
+            const result = filter(array, (item) => item % 2 === 0);
+            expect(result.length).toEqual(500);
+        });
     });
 
 });

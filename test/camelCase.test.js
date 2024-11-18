@@ -1,7 +1,6 @@
 import camelCase from '../src/camelCase';
 
 describe('camelCase', () => {
-
     describe('when given valid (string) inputs', () => {
         test('should convert single lowercase word', () => {
             expect(camelCase('foo')).toBe('foo');
@@ -94,5 +93,23 @@ describe('camelCase', () => {
         });
     });
 
-    /* What would limit values be for camelCase? */
+    describe('when given limit values', () => {
+        test('should convert a very long string', () => {
+            const input = 'a'.repeat(1000000);
+            const result = camelCase(input);
+            // this test is a bit verbose when it fails so check length and first character
+            // expect(result).toBe(input);
+            expect(result.length).toBe(input.length);
+            expect(result[0]).toBe('a');
+        });
+
+        test('should convert a very long string with separators', () => {
+            const input = 'a-'.repeat(1000000);
+            const result = camelCase(input);
+            // this test is a bit verbose when it fails so check length and first character
+            // expect(result).toBe(input);
+            expect(result.length).toBe(input.length / 2);
+            expect(result[0]).toBe('a');
+        });
+    });
 });
