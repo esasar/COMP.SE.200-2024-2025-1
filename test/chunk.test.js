@@ -1,42 +1,47 @@
 import chunk from '../src/chunk';
+import toInteger from '../src/toInteger';
 
 describe('chunk', () => {
     describe('when given valid inputs', () => {
         test('splits even length arrays to equal chunks', () => {
-            expect(chunk(['a', 'b', 'c', 'd'], 2)).toBe([['a', 'b'], ['c', 'd']]);
+            expect(chunk(['a', 'b', 'c', 'd'], 2)).toEqual([['a', 'b'], ['c', 'd']]);
         });
 
         test('splits odd length arrays to equal chunks with remainder', () => {
-            expect(chunk(['a', 'b', 'c', 'd'], 3)).toBe([['a', 'b', 'c'], 'd']);
+            expect(chunk(['a', 'b', 'c', 'd'], 3)).toEqual([['a', 'b', 'c'], 'd']);
         });
 
         test('splits array to single chunk when size is greater than array length', () => {
-            expect(chunk(['a', 'b', 'c', 'd'], 5)).toBe([['a', 'b', 'c', 'd']]);
+            expect(chunk(['a', 'b', 'c', 'd'], 5)).toEqual([['a', 'b', 'c', 'd']]);
         });
 
         test('splits array to single chunk when size is equal to array length', () => {
-            expect(chunk(['a', 'b', 'c', 'd'], 4)).toBe([['a', 'b', 'c', 'd']]);
+            expect(chunk(['a', 'b', 'c', 'd'], 4)).toEqual([['a', 'b', 'c', 'd']]);
         });
 
         test('splits array to chunks of size 1', () => {
-            expect(chunk(['a', 'b', 'c', 'd'], 1)).toBe([['a'], ['b'], ['c'], ['d']]);
+            expect(chunk(['a', 'b', 'c', 'd'], 1)).toEqual([['a'], ['b'], ['c'], ['d']]);
         });
 
         test('splits empty array to an empty array', () => {
-            expect(chunk([], 2)).toBe([]);
+            expect(chunk([], 2)).toEqual([]);
+        });
+
+        test('splits array to chunks of size 1 when size is not provided', () => {
+            expect(chunk(['a', 'b', 'c', 'd'])).toEqual([['a'], ['b'], ['c'], ['d']]);
         });
 
         // according to the source code, the following ones are expected behaviour
         test('splits null to an empty array', () => {
-            expect(chunk(null, 2)).toBe([]);
+            expect(chunk(null, 2)).toEqual([]);
         });
 
         test('splits undefined to an empty array', () => {
-            expect(chunk(undefined, 2)).toBe([]);
+            expect(chunk(undefined, 2)).toEqual([]);
         });
 
         test('splits array to an empty array when size is less than 1', () => {
-            expect(chunk(['a', 'b', 'c', 'd'], 0)).toBe([]);
+            expect(chunk(['a', 'b', 'c', 'd'], 0)).toEqual([]);
         });
 
         test('splits non-integer sizes by rounding down', () => {
@@ -55,17 +60,19 @@ describe('chunk', () => {
         });
     });
 
-    /*
+    /**
     * how to test chunk with arbitrarily large arrays effectively?
     *   what is the size the input array?
     *   what is the chunk size?
     *   do we verify that each chunk is correct or just some of them?
-    * 
-    * NOTE: These test cause 
-    * """FATAL ERROR: invalid table size Allocation failed - JavaScript heap out of memory"""
     */
 
     describe('when given valid limit values', () => {
+        /**
+         * NOTE: These test cause 
+         * """FATAL ERROR: invalid table size Allocation failed - JavaScript heap out of memory"""
+         * Even though one would expect the test to pass, it is not possible to run them.
+         */
         /*
         test('splits array to a single chunk when size is a very large integer', () => {
             expect(chunk(['a', 'b', 'c', 'd'], Number.MAX_SAFE_INTEGER)).toBe([['a', 'b', 'c', 'd']]);

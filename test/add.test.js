@@ -1,12 +1,6 @@
 import add from '../src/add';
 
 describe('add', () => {
-    /*
-    * What is the equivalence partition in the case of numbers?
-    * In theory, we should expect Numbers and Non-Numbers to behave
-    * the same way, but because of javascript and type inference
-    * this is not the case.
-    */
     describe('when given valid (Number) inputs', () => {
         test('should sum two integers', () => {
             expect(add(4, 2)).toBe(6);
@@ -17,11 +11,10 @@ describe('add', () => {
         });
     });
 
-    /*
-    * Should the case when both inputs are non-Numbers be separately tested?
-    * the test amount would explode if we want all combinations of Javascript
-    * primitives and objects 
-    */
+    /**
+     * In the JSDoc, it says that both paremeters should be numbers, so 
+     * all other behaviour should be unexpected behaviour.
+     */
     describe('when given invalid (non-Number) inputs', () => {
         test('should return NaN when one argument is a number string', () => {
             expect(add('1', 1)).toBeNaN();
