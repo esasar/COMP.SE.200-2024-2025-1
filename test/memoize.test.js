@@ -113,7 +113,7 @@ describe('When using non-default cache constructors', () => {
 
     // WeakMap does not support primitive keys. What is the expected behavior when using them?
     // Here we just test, that it throws a TypeError, but the behavior should be defined to make better tests.
-    test('should throw TypeError with WeakMap when using not using objects as keys', () => {
+    test('should throw TypeError with WeakMap when not using objects as keys', () => {
         let callCount = 0;
         const mockFunc = (x) => {callCount ++; return x;};
         memoize.Cache = WeakMap;
