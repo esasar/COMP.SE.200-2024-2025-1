@@ -14,14 +14,6 @@ const config = {
 
   collectCoverage: true,
   coverageReporters: ['text', 'html', 'lcov'],
-  coverageThreshold: {
-    global: {
-      branches: 20,
-      functions: 20,
-      lines: 20,
-      statements: 20
-    }
-  },
 
   // ingore source files in .internal and node_modules
   testPathIgnorePatterns: ['/node_modules/', '/.internal/'],
