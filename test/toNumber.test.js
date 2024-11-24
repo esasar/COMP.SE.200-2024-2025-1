@@ -128,7 +128,7 @@ describe('When given hexadecimal strings', () => {
     });
 });
 
-describe('When given invalid types', () => {
+describe('When given edge case types types', () => {
     test('returns NaN for symbols', () => {
         expect(toNumber(Symbol("test"))).toBeNaN();
     });
@@ -144,14 +144,14 @@ describe('When given invalid types', () => {
         expect(toNumber(undefined)).toBeNaN();
     });
 
-    test('returns NaN for null', () => {
-        expect(toNumber(null)).toBeNaN();
+    test('returns 0 for null', () => {
+        expect(toNumber(null)).toBe(0);
     });
-    test('returns NaN for true', () => {
-        expect(toNumber(true)).toBeNaN();
+    test('returns 1 for true', () => {
+        expect(toNumber(true)).toBe(1);
     });
-    test('returns NaN for false', () => {
-        expect(toNumber(false)).toBeNaN();
+    test('returns 0 for false', () => {
+        expect(toNumber(false)).toBe(0);
     });
     test('returns NaN for NaN', () => {
         expect(toNumber(NaN)).toBeNaN();
@@ -259,8 +259,8 @@ describe('When given objects', () => {
         test('returns NaN when valueOf returns NaN', () => {
             expect(toNumber({ valueOf: () => NaN })).toBeNaN();
         });
-        test('returns NaN when valueOf returns null', () => {
-            expect(toNumber({ valueOf: () => null })).toBeNaN();
+        test('returns 0 when valueOf returns null', () => {
+            expect(toNumber({ valueOf: () => null })).toBe(0);
         });
         test('returns NaN when valueOf returns undefined', () => {
             expect(toNumber({ valueOf: () => undefined })).toBeNaN();
@@ -274,11 +274,11 @@ describe('When given objects', () => {
         test('returns NaN when valueOf returns a function', () => {
             expect(toNumber({ valueOf: () => () => 13 })).toBeNaN();
         });
-        test('returns NaN when valueOf returns a true', () => {
-            expect(toNumber({ valueOf: () => true })).toBeNaN();
+        test('returns 1 when valueOf returns a true', () => {
+            expect(toNumber({ valueOf: () => true })).toBe(1);
         });
-        test('returns NaN when valueOf returns a false', () => {
-            expect(toNumber({ valueOf: () => false })).toBeNaN();
+        test('returns 0 when valueOf returns a false', () => {
+            expect(toNumber({ valueOf: () => false })).toBe(0);
         });
     });
 

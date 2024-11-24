@@ -1,6 +1,5 @@
 import get from '../src/get.js';
 
-
  describe('When using dot notation to access properties', () => {
   test('returns the value of a direct property', () => {
     const object = { a: 1 };
@@ -110,9 +109,6 @@ describe('When given edge cases', () => {
     expect(get(() => {}, 'a')).toBeUndefined();
   });
 });
-
-
-
 
 describe('When using symbols in path', () => {
   test('returns value for symbol path in array format', () => {
